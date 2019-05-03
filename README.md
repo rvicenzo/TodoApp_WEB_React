@@ -1,3 +1,5 @@
 # TodoApp_WEB_React
 
-Simple web front-end using React.
+Run Back-end (https://github.com/rvicenzo/TodoApp_API_NodeJS)<br />
+npm i<br />
+npm run dev
