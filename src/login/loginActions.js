@@ -17,15 +17,8 @@ export const login = (username, password) => {
         axios.get(`${URL}/login?email=${username}&password=${password}`)
             .then(resp => {
                 dispatch(authenticate(resp.data.auth, resp.data.token))                
-                localStorage.setItem("userToken", resp.data.token)
-                axios.get(`${URL}/me/7`, { headers: { "Authorization": resp.data.token }})
-                    .then(me => {                        
-                        localStorage.setItem("userData", JSON.stringify(me.data.user))                
-                        location.href = "#/todos"
-                    })
-                    .catch(e => {
-                        console.log(e)
-                    })
+                localStorage.setItem("userToken", resp.data.token)                
+                location.href = "#/todos"
             })
             .catch(e => {
                 alert("Usuário e/ou senha incorretos.")
