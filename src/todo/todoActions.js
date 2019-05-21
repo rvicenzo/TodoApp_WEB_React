@@ -1,9 +1,19 @@
 import axios from 'axios'
 
-const URL = 'http://localhost:3003/api/todos'
+const URL = 'http://localhost:3003/api/products'
+
+export const changeTitle = e => ({
+    type: 'TITLE_CHANGED',
+    payload: e.target.value
+})
 
 export const changeDescription = e => ({
     type: 'DESCRIPTION_CHANGED',
+    payload: e.target.value
+})
+
+export const changePrice = e => ({
+    type: 'PRICE_CHANGED',
     payload: e.target.value
 })
 
@@ -11,36 +21,25 @@ export const search = () => {
     return (dispatch, getState) => {
         const description = getState().todo.description
         const search = description ? `&description__regex=/${description}/` : ''
-        const request = axios.get(`${URL}?sort=-createdAt${search}`)
-            .then(resp => dispatch({ type: 'TODO_SEARCHED', payload: resp.data }))
+        const token = localStorage.getItem("userToken")        
+        axios.get(URL, { headers: { "Authorization": token }})
+            .then(resp => dispatch({ type: 'TODO_SEARCHED', payload: resp.data.data }))
     }
 }
 
-export const add = (description) => {
+export const add = (product) => {
     return dispatch => {
-        axios.post(URL, { description })
+        const token = localStorage.getItem("userToken")        
+        axios.post(URL, product, { headers: { "Authorization": token }})
             .then(resp => dispatch(clear()))
-            .then(resp => dispatch(search()))
-    }
-}
-
-export const markAsDone = (todo) => {
-    return dispatch => {
-        axios.put(`${URL}/${todo._id}`, { ...todo, done: true })
-            .then(resp => dispatch(search()))
-    }
-} 
-
-export const markAsPending = (todo) => {
-    return dispatch => {
-        axios.put(`${URL}/${todo._id}`, { ...todo, done: false })
             .then(resp => dispatch(search()))
     }
 }
 
 export const remove = (todo) => {
     return dispatch => {
-        axios.delete(`${URL}/${todo._id}`)
+        const token = localStorage.getItem("userToken")
+        axios.delete(`${URL}/${todo.id}`, { headers: { "Authorization": token }})
             .then(resp => dispatch({ type: 'TODO_CLEAR', payload: '' }))
             .then(resp => dispatch(search()))            
     }

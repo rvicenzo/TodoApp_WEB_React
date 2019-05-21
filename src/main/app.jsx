@@ -4,12 +4,10 @@ import '../template/custom.css'
 
 import React from 'react'
 
-import Menu from '../template/menu'
 import Router from '../main/routes'
 
 export default props => (
-    <div className="container">
-        <Menu />
+    <div className="container">        
         <Router />
     </div>
 )
