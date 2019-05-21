@@ -1,3 +1,5 @@
 # TodoApp_WEB_React
 
-Simple web front-end using React.
+>Run Back-end (https://github.com/rvicenzo/API_Sequelize)
+>npm i
+>npm run dev
